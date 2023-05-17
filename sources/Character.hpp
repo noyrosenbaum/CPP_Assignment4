@@ -7,22 +7,19 @@
 using namespace std;
 namespace ariel
 {
+    class Character
+    {
+    public:
+        Point location;
+        string name;
+        int hits;
+        Character(Point location, string name, int hits);
+        bool isAlive();
+        double distance(Character &other);
+        void hit(int hits);
+        string getName() const;
+        Point getLocation() const;
+        int getHits() const;
+        virtual string print() = 0;
+    };
 }
-
-class Character
-{
-private:
-    Point location;
-    string name;
-    int hits;
-
-public:
-    Character(string name, Point location, int hits);
-    bool isAlive();
-    double distance(Character &other);
-    void hit(int hits);
-    string getName();
-    Point getLocation();
-    int getHits();
-    virtual void print();
-};
