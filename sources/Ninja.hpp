@@ -6,16 +6,17 @@
 using namespace std;
 namespace ariel
 {
-    class Ninja : public Character
-    {
-    private:
-        int speed;
 
-    public:
-        Ninja(string name, Point location, int speed, int hits);
-        virtual void move(Character *enemy);
-        virtual void slash(Character *enemy);
-        int getSpeed() const;
-        string print();
-    };
 }
+class Ninja : public Character
+{
+protected:
+    int speed;
+
+public:
+    Ninja(const Point &loc, int hits, const string &name, int speed);
+    void move(const Character &target);
+    int getSpeed() const;
+    void slash(Character &target);
+    void print() const override;
+};

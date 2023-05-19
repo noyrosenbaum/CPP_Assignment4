@@ -6,6 +6,7 @@
 #include "Cowboy.hpp"
 #include "YoungNinja.hpp"
 #include "OldNinja.hpp"
+#include "Character.hpp"
 #include "TrainedNinja.hpp"
 #include <vector>
 
@@ -15,14 +16,33 @@ namespace ariel
     class Team
     {
     private:
-        vector<Character *> members;
-        Character *captin;
+        Character *leader;
+        std::vector<Cowboy *> cowboys;
+        std::vector<Ninja *> ninjas;
+
+        // Returns the living character in the Team that is closest to the provided Point
+        Character *closestLivingCharacter(const Point &position) const;
+
+        // Chooses a new leader for the Team
+        void chooseNewLeader();
 
     public:
-        Team(Character *captin);
+        // Constructor, requires a pointer to the initial leader
+        Team(Character *leader);
+
+        // Destructor
+        ~Team();
+
+        // Add a cowboy or a ninja to the Team
         void add(Character *character);
-        void attack(Team *enemy);
-        int stillAlive();
-        void print();
+
+        // Attacks another Team
+        void attack(Team &other);
+
+        // Returns the number of living members in the Team
+        int stillAlive() const;
+
+        // Prints the details of all members in the Team
+        void print() const;
     };
 }

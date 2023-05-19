@@ -1,29 +1,48 @@
-#include "iostream"
-#include <string>
+#include <iostream>
+#include <cmath>
 #include "Point.hpp"
-
 using namespace std;
 namespace ariel
 {
-    Point::Point(double x, double y) : x(x), y(y){}
-    double Point::getX() const
+}
+
+// Constructor
+Point::Point(double x, double y) : x(x), y(y) {}
+
+// Calculates the distance between two points
+double Point::distance(const Point &other) const
+{
+    return sqrt(pow(other.x - x, 2) + pow(other.y - y, 2));
+}
+
+// Prints the Point
+void Point::print() const
+{
+    cout << "(" << x << ", " << y << ")" << endl;
+}
+
+// Returns the closest point to the destination point,
+// which is at most the given distance from the source point
+Point Point::moveTowards(const Point &source, const Point &destination, double maxDistance) const
+{
+    double dist = source.distance(destination);
+    if (dist <= maxDistance)
     {
-        return this->x;
+        return destination;
     }
-    double Point::getY() const
+    else
     {
-        return this->y;
+        double ratio = maxDistance / dist;
+        double newX = source.x + (destination.x - source.x) * ratio;
+        double newY = source.y + (destination.y - source.y) * ratio;
+        return Point(newX, newY);
     }
-    double Point::distance(const Point &other)
-    {
-        return sqrt(pow(x - other.x, 2) + pow(y - other.y, 2) * 1.0);
-    }
-    string Point::print()
-    {
-        return "(" + to_string(x) + ", " + to_string(y) + ")";
-    }
-    Point Point::moveTowards(const Point &source, const Point &dest, double distance)
-    {
-        return Point(0, 0);
-    }
+}
+double Point::getX() const
+{
+    return this->x;
+}
+double Point::getY() const
+{
+    return this->y;
 }
