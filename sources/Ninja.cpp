@@ -1,26 +1,27 @@
 #include "Ninja.hpp"
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 using namespace ariel;
 
-Ninja::Ninja(const Point &loc, int hits, const string &name, int speed)
-    : Character(loc, hits, name), speed(speed) {}
+Ninja::Ninja(string name, const Point &loc, int hits, int speed)
+    : Character(name, loc, hits), speed(speed) {}
 
-void Ninja::move(const Character &target)
+void Ninja::move(const Character *target)
 {
     if (isAlive())
     {
-        Point newPos = location.moveTowards(location, target.getLocation(), speed);
+        Point newPos = location.moveTowards(location, target->getLocation(), speed);
         location = newPos;
     }
 }
 
-void Ninja::slash(Character &target)
+void Ninja::slash(Character *target)
 {
     if (isAlive() && distance(target) <= 1)
     {
-        target.hit(40);
+        target->hit(40);
     }
 }
 int Ninja::getSpeed() const
@@ -28,12 +29,13 @@ int Ninja::getSpeed() const
     return speed;
 }
 
-void Ninja::print() const
+string Ninja::print() const
 {
-    cout << 'N';
+    stringstream ss;
+    ss << 'N';
     if (!isAlive())
-        cout << "(" << name << ")";
+        ss << "(" << name << ")";
     else
-        cout << name << " hit points: " << hits << " Location: (" << location.getX() << ", " << location.getY() << ")";
-    cout << endl;
+        ss << name << " hit points: " << hits << " Location: (" << location.getX() << ", " << location.getY() << ")";
+    return ss.str();
 }

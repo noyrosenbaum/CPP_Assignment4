@@ -23,8 +23,13 @@ void Point::print() const
 
 // Returns the closest point to the destination point,
 // which is at most the given distance from the source point
-Point Point::moveTowards(const Point &source, const Point &destination, double maxDistance) const
+Point Point::moveTowards(const Point &source, const Point &destination, double maxDistance)
 {
+    if (maxDistance < 0)
+    {
+        throw std::invalid_argument("Distance cannot be negative");
+    }
+
     double dist = source.distance(destination);
     if (dist <= maxDistance)
     {

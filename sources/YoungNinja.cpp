@@ -3,5 +3,5 @@
 using namespace std;
 using namespace ariel;
 
-YoungNinja::YoungNinja(const Point &loc, const string &name)
-    : Ninja(loc, 100, name, 14) {}
+YoungNinja::YoungNinja(string name, const Point &loc)
+    : Ninja(name ,loc, 100, 14) {}

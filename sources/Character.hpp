@@ -16,12 +16,13 @@ protected:
     string name;
 
 public:
-    Character(const Point &loc, int hits, const string &name);
+    Character(const string &name, const Point &loc, int hits);
+    virtual ~Character(){};
     bool isAlive() const;
-    double distance(const Character &other) const;
+    double distance(const Character *other) const;
     void hit(int damage);
     string getName() const;
     Point getLocation() const;
     int getHitPoints() const;
-    virtual void print() const = 0; 
+    virtual string print() const = 0;
 };

@@ -4,7 +4,7 @@ using namespace std;
 namespace ariel
 {
 }
-SmartTeam::SmartTeam(Character *leader) : leader(leader)
+SmartTeam::SmartTeam(Character *leader) : Team(leader)
 {
     members.push_back(leader);
 }
@@ -22,12 +22,27 @@ void SmartTeam::add(Character *character)
 
 Character *SmartTeam::closestLivingCharacter(const Point &position) const
 {
-    // The same as in Group2
+    Character *closest = nullptr;
+    double minDistance = std::numeric_limits<double>::max();
+
+    for (auto member : members)
+    {
+        if (member->isAlive() && position.distance(member->getLocation()) < minDistance)
+        {
+            closest = member;
+            minDistance = position.distance(member->getLocation());
+        }
+    }
+
+    return closest; // Add return statement
 }
 
 void SmartTeam::chooseNewLeader()
 {
-    // The same as in Group2
+    if (leader->isAlive())
+        return; // The leader is still alive
+
+    leader = closestLivingCharacter(leader->getLocation());
 }
 
 Character *SmartTeam::chooseVictim(const SmartTeam &other) const
@@ -44,24 +59,53 @@ Character *SmartTeam::chooseVictim(const SmartTeam &other) const
     return other.closestLivingCharacter(leader->getLocation());
 }
 
-void SmartTeam::attack(SmartTeam &other)
+void SmartTeam::attack(SmartTeam *other)
 {
     chooseNewLeader();
 
     if (leader == nullptr)
         return;
 
-    Character *victim = chooseVictim(other);
+    Character *victim = chooseVictim(*other);
 
-    // The rest of the code is the same as in Group2
+    while (victim != nullptr)
+    {
+        for (auto member : members)
+        {
+            if (member->isAlive())
+            {
+                Cowboy *cowboy = dynamic_cast<Cowboy *>(member);
+                if (cowboy != nullptr)
+                {
+                    if (cowboy->hasboolets())
+                        cowboy->shoot(victim);
+                    else
+                        cowboy->reload();
+                    continue;
+                }
+
+                Ninja *ninja = dynamic_cast<Ninja *>(member);
+                if (ninja != nullptr)
+                {
+                    if (ninja->distance(victim) <= 1)
+                        ninja->slash(victim);
+                    else
+                        ninja->move(victim);
+                    continue;
+                }
+            }
+        }
+
+        if (!victim->isAlive())
+            victim = other->closestLivingCharacter(leader->getLocation()); // Choose a new victim
+    }
 }
 
 int SmartTeam::stillAlive() const
 {
-    // The same as in Group2
-}
-
-void SmartTeam::print() const
-{
-    // The same as in Group2
+    int count = 0;
+    for (auto member : members)
+        if (member->isAlive())
+            count++;
+    return count; // Add return statement
 }

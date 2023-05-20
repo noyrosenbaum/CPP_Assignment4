@@ -25,6 +25,8 @@ Team::~Team()
         delete cowboy;
     for (auto ninja : ninjas)
         delete ninja;
+    cowboys.clear();
+    ninjas.clear();
 }
 
 void Team::add(Character *character)
@@ -69,14 +71,14 @@ void Team::chooseNewLeader()
     leader = closestLivingCharacter(leader->getLocation());
 }
 
-void Team::attack(Team &other)
+void Team::attack(Team *other)
 {
     chooseNewLeader(); // Ensure we have a living leader
 
     if (leader == nullptr)
         return; // No living members in the Team
 
-    Character *victim = other.closestLivingCharacter(leader->getLocation());
+    Character *victim = other->closestLivingCharacter(leader->getLocation());
 
     while (victim != nullptr)
     {
@@ -85,7 +87,7 @@ void Team::attack(Team &other)
             if (cowboy->isAlive())
             {
                 if (cowboy->hasboolets())
-                    cowboy->shoot(*victim);
+                    cowboy->shoot(victim);
                 else
                     cowboy->reload();
             }
@@ -95,15 +97,15 @@ void Team::attack(Team &other)
         {
             if (ninja->isAlive())
             {
-                if (ninja->distance(*victim) <= 1)
-                    ninja->slash(*victim);
+                if (ninja->distance(victim) <= 1)
+                    ninja->slash(victim);
                 else
-                    ninja->move(*victim);
+                    ninja->move(victim);
             }
         }
 
         if (!victim->isAlive())
-            victim = other.closestLivingCharacter(leader->getLocation()); // Choose a new victim
+            victim = other->closestLivingCharacter(leader->getLocation()); // Choose a new victim
     }
 }
 

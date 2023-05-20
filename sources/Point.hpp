@@ -20,7 +20,7 @@ public:
 
     // Returns the closest point to the destination point,
     // which is at most the given distance from the source point
-    Point moveTowards(const Point &source, const Point &destination, double maxDistance) const;
+    static Point moveTowards(const Point &source, const Point &destination, double maxDistance);
     double getX() const;
     double getY() const;
 };

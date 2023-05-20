@@ -4,8 +4,8 @@
 using namespace std;
 using namespace ariel;
 
-Character::Character(const Point &loc, int hits, const string &name)
-    : location(loc), hits(hits), name(name) {}
+Character::Character(const string &name, const Point &loc, int hits)
+    : name(name), location(loc), hits(hits) {}
 
 bool Character::isAlive() const
 {
@@ -15,9 +15,9 @@ int Character::getHitPoints() const
 {
     return hits;
 }
-double Character::distance(const Character &other) const
+double Character::distance(const Character *other) const
 {
-    return location.distance(other.location);
+    return location.distance(other->location);
 }
 
 void Character::hit(int damage)

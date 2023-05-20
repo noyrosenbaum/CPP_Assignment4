@@ -14,9 +14,9 @@ protected:
     int speed;
 
 public:
-    Ninja(const Point &loc, int hits, const string &name, int speed);
-    void move(const Character &target);
+    Ninja(string name, const Point &loc, int hits, int speed);
+    void move(const Character *target);
     int getSpeed() const;
-    void slash(Character &target);
-    void print() const override;
+    void slash(Character *target);
+    string print() const override;
 };

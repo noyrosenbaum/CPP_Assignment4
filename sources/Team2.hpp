@@ -10,11 +10,11 @@ namespace ariel
 
 }
 
-class Team2
+class Team2 : public Team
 {
 private:
     Character *leader;
-    std::vector<Character *> members;
+    vector<Character *> members;
 
     // Returns the living character in the group that is closest to the provided Point
     Character *closestLivingCharacter(const Point &position) const;
@@ -33,11 +33,11 @@ public:
     void add(Character *character);
 
     // Attacks another group
-    void attack(Team2 &other);
+    void attack(Team *other) override;
 
     // Returns the number of living members in the group
     int stillAlive() const;
 
     // Prints the details of all members in the group
-    void print() const;
+    void print() const override;
 };

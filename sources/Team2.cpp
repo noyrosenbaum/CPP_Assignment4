@@ -7,7 +7,7 @@ namespace ariel
 {
 }
 
-Team2::Team2(Character *leader) : leader(leader)
+Team2::Team2(Character *leader) : Team(leader)
 {
     members.push_back(leader);
 }
@@ -48,14 +48,14 @@ void Team2::chooseNewLeader()
     leader = closestLivingCharacter(leader->getLocation());
 }
 
-void Team2::attack(Team2 &other)
+void Team2::attack(Team *other)
 {
     chooseNewLeader(); // Ensure we have a living leader
 
     if (leader == nullptr)
         return; // No living members in the group
 
-    Character *victim = other.closestLivingCharacter(leader->getLocation());
+    Character *victim = other->closestLivingCharacter(leader->getLocation());
 
     while (victim != nullptr)
     {
@@ -67,7 +67,7 @@ void Team2::attack(Team2 &other)
                 if (cowboy != nullptr)
                 {
                     if (cowboy->hasboolets())
-                        cowboy->shoot(*victim);
+                        cowboy->shoot(victim);
                     else
                         cowboy->reload();
                     continue;
@@ -76,17 +76,17 @@ void Team2::attack(Team2 &other)
                 Ninja *ninja = dynamic_cast<Ninja *>(member);
                 if (ninja != nullptr)
                 {
-                    if (ninja->distance(*victim) <= 1)
-                        ninja->slash(*victim);
+                    if (ninja->distance(victim) <= 1)
+                        ninja->slash(victim);
                     else
-                        ninja->move(*victim);
+                        ninja->move(victim);
                     continue;
                 }
             }
         }
 
         if (!victim->isAlive())
-            victim = other.closestLivingCharacter(leader->getLocation()); // Choose a new victim
+            victim = other->closestLivingCharacter(leader->getLocation()); // Choose a new victim
     }
 }
 

@@ -1,17 +1,18 @@
 #include "Cowboy.hpp"
 #include "iostream"
+#include <sstream>
 
 using namespace std;
 using namespace ariel;
 
-Cowboy::Cowboy(const Point &loc, const string &name)
-    : Character(loc, 110, name), bullets(6) {}
+Cowboy::Cowboy(string name, const Point &loc)
+    : Character(name, loc, 110), bullets(6) {}
 
-void Cowboy::shoot(Character &target)
+void Cowboy::shoot(Character *target)
 {
     if (isAlive() && bullets > 0)
     {
-        target.hit(10);
+        target->hit(10);
         bullets--;
     }
 }
@@ -23,15 +24,18 @@ bool Cowboy::hasboolets() const
 
 void Cowboy::reload()
 {
+    if (!isAlive())
+        throw runtime_error("Cowboy is dead");
     bullets = 6;
 }
 
-void Cowboy::print() const
+string Cowboy::print() const
 {
-    std::cout << 'C';
+    std::stringstream ss;
+    ss << 'C';
     if (!isAlive())
-        std::cout << "(" << name << ")";
+        ss << "(" << name << ")";
     else
-        std::cout << name << " hit points: " << hits << " Location: (" << location.getX() << ", " << location.getY() << ")";
-    std::cout << std::endl;
+        ss << name << " hit points: " << hits << " Location: (" << location.getX() << ", " << location.getY() << ")";
+    return ss.str();
 }

@@ -14,9 +14,9 @@ private:
     int bullets;
 
 public:
-    Cowboy(const Point &loc, const string &name);
-    void shoot(Character &target);
+    Cowboy(string name, const Point &loc);
+    void shoot(Character *target);
     bool hasboolets() const;
     void reload();
-    void print() const override;
+    string print() const override;
 };

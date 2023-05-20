@@ -7,7 +7,7 @@ using namespace std;
 namespace ariel
 {
 }
-class SmartTeam
+class SmartTeam : public Team
 {
 private:
     Character *leader;
@@ -33,11 +33,9 @@ public:
     void add(Character *character);
 
     // Attacks another group
-    void attack(SmartTeam &other);
+    void attack(SmartTeam *other);
 
     // Returns the number of living members in the group
     int stillAlive() const;
-
-    // Prints the details of all members in the group
-    void print() const;
+    // void print() const override;
 };
