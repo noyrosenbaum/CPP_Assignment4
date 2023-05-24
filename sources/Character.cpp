@@ -22,6 +22,7 @@ double Character::distance(const Character *other) const
 
 void Character::hit(int damage)
 {
+    if(damage < 0) throw invalid_argument("invalid damage");
     hits -= damage;
     if (hits < 0)
         hits = 0;
